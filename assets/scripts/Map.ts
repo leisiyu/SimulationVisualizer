@@ -6,6 +6,7 @@ export class Map extends Component {
     @property(Prefab)
     // mapGridRoad: Prefab = null
     mapGrid: Prefab = null
+    character: Prefab = null
 
     mapData = []
     mapSize = []
@@ -19,12 +20,10 @@ export class Map extends Component {
             console.info(this.mapSize)
 
             for (let i = 0; i < this.mapData.length; i++) {
-                for (let j = 0; j < this.mapData[0].length; j++) {
-                    
+                for (let j = 0; j < this.mapData[0].length; j++) {            
                     
                         const node = instantiate(this.mapGrid)
-                        node.setPosition(30 + (i - 1) * 15, (this.mapData[0].length - j) * 15)
-                        // console.info("hahahaha" + )
+                        node.setPosition(30 + (i - 1) * 10, (this.mapData[0].length - j) * 10)
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = (Color.BLACK)
                         }
@@ -33,6 +32,8 @@ export class Map extends Component {
                     this.node.addChild(node)
                 }
             }
+
+            
         })
         // var mapSize = [mapData.length, mapData[0].length]
         
@@ -40,6 +41,9 @@ export class Map extends Component {
 
     update(deltaTime: number) {
         // console.info("??????")
+        if (deltaTime / 10 == 0) {
+
+        }
     }
 
     // loadImages(){
