@@ -1,15 +1,19 @@
 import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color } from 'cc';
+import { StatesData } from './StatesData';
+import { stat } from 'fs';
 const { ccclass, property } = _decorator;
 
 @ccclass('Map')
 export class Map extends Component {
     @property(Prefab)
-    // mapGridRoad: Prefab = null
     mapGrid: Prefab = null
+
+    @property(Prefab)
     character: Prefab = null
 
     mapData = []
     mapSize = []
+    characters = {}
 
     start() {
         resources.load("./CityMap", (err, res:TextAsset) => {
@@ -23,11 +27,11 @@ export class Map extends Component {
                 for (let j = 0; j < this.mapData[0].length; j++) {            
                     
                         const node = instantiate(this.mapGrid)
-                        node.setPosition(30 + (i - 1) * 10, (this.mapData[0].length - j) * 10)
+                        node.setPosition((i - 1) * 10, (this.mapData[0].length - j) * 10)
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = (Color.BLACK)
                         }
-
+                        
                     
                     this.node.addChild(node)
                 }
@@ -40,20 +44,34 @@ export class Map extends Component {
     }
 
     update(deltaTime: number) {
-        // console.info("??????")
-        if (deltaTime / 10 == 0) {
+        var stateInfo = []
+        if (!StatesData.getPauseStatus()) {
+            stateInfo = StatesData.getDataByIdx()
 
+            StatesData.idxIncrement()
+            if (stateInfo["Action"] == "moved to" ) {
+                var characterName = stateInfo["Name"]
+                if (this.characters[characterName] == null) {
+                    const node = instantiate(this.character)
+                    node.setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
+                    var nodeColor
+                    if (characterName[0] == "A") {
+                        nodeColor = Color.RED
+                    } else if (characterName[0] == "S") {
+                        nodeColor = Color.BLUE
+                    } else {
+                        nodeColor = Color.GREEN
+                    }
+                    node.getComponent(Sprite).color = nodeColor
+                    this.node.addChild(node)
+                    this.characters[characterName] = node
+                } else {
+                    this.characters[characterName].setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
+                }
+            }
+            
         }
     }
 
-    // loadImages(){
-    //     resources.load(
-    //         "blank",
-    //         SpriteFrame,
-    //         (_err, spriteFrames) => {
-    //           this.mapGridImage = spriteFrames;
-    //         }
-    //       );
-    // }
 }
 
