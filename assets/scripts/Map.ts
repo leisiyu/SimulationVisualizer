@@ -1,4 +1,4 @@
-import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color } from 'cc';
+import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button } from 'cc';
 import { StatesData } from './StatesData';
 import { stat } from 'fs';
 const { ccclass, property } = _decorator;
@@ -14,6 +14,7 @@ export class Map extends Component {
     mapData = []
     mapSize = []
     characters = {}
+    readIdx = 0
 
     start() {
         resources.load("./CityMap", (err, res:TextAsset) => {
@@ -44,32 +45,37 @@ export class Map extends Component {
     }
 
     update(deltaTime: number) {
-        var stateInfo = []
         if (!StatesData.getPauseStatus()) {
-            stateInfo = StatesData.getDataByIdx()
+            this.refreshMap()   
+            StatesData.idxIncrement()      
+        } else if (this.readIdx != StatesData.getReadIdx()) {
+            this.refreshMap()
+        }
+        this.readIdx = StatesData.getReadIdx() 
+    }
 
-            StatesData.idxIncrement()
-            if (stateInfo["Action"] == "moved to" ) {
-                var characterName = stateInfo["Name"]
-                if (this.characters[characterName] == null) {
-                    const node = instantiate(this.character)
-                    node.setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
-                    var nodeColor
-                    if (characterName[0] == "A") {
-                        nodeColor = Color.RED
-                    } else if (characterName[0] == "S") {
-                        nodeColor = Color.BLUE
-                    } else {
-                        nodeColor = Color.GREEN
-                    }
-                    node.getComponent(Sprite).color = nodeColor
-                    this.node.addChild(node)
-                    this.characters[characterName] = node
+    refreshMap(){
+        var stateInfo = StatesData.getDataByIdx()
+
+        if (stateInfo["Action"] == "moved to" ) {
+            var characterName = stateInfo["Name"]
+            if (this.characters[characterName] == null) {
+                const node = instantiate(this.character)
+                node.setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
+                var nodeColor
+                if (characterName[0] == "A") {
+                    nodeColor = Color.RED
+                } else if (characterName[0] == "S") {
+                    nodeColor = Color.BLUE
                 } else {
-                    this.characters[characterName].setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
+                    nodeColor = Color.GREEN
                 }
+                node.getComponent(Sprite).color = nodeColor
+                this.node.addChild(node)
+                this.characters[characterName] = node
+            } else {
+                this.characters[characterName].setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
             }
-            
         }
     }
 

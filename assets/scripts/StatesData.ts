@@ -49,7 +49,15 @@ export namespace StatesData {
         if (readIdx < statesLog.length) {
             readIdx++
         } else {
-            return false
+            return readIdx
+        }
+    }
+
+    export function idxDecrement(){
+        if (readIdx == 0) {
+            return readIdx
+        } else {
+            readIdx--
         }
     }
 
