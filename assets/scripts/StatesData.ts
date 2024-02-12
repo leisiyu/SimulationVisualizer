@@ -6,6 +6,7 @@ export namespace StatesData {
     var statesLog = []
     var readIdx = 0
     var isPause = false
+    var time = 0
 
     function initData(){
         resources.load("./StatesLog", (err, res:TextAsset) => {
@@ -31,13 +32,17 @@ export namespace StatesData {
         }
         if (idx) {
             if (idx < statesLog.length) {
-                return JSON.parse(statesLog[idx])
+                var currentData = JSON.parse(statesLog[idx])
+                // time = currentData["Time"]
+                return currentData
             } else {
                 console.log('state idx is not valid')
                 return false
             }
         } else {
-            return JSON.parse(statesLog[readIdx])
+            var currentData = JSON.parse(statesLog[readIdx])
+            // time = currentData["Time"]
+            return currentData
         }
     }
 
@@ -67,6 +72,10 @@ export namespace StatesData {
 
     export function setPauseStatus(status){
         isPause = status
+    }
+
+    export function getTime(){
+        return time
     }
 }
 
