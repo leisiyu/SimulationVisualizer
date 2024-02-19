@@ -1,6 +1,7 @@
 import { _decorator, Button, Component, Node, Sprite, SpriteFrame, find, Slider } from 'cc';
 const { ccclass, property } = _decorator;
 import { StatesData } from './StatesData';
+// import { EventsLogData } from './EventsLogData';
 
 @ccclass('MainPage')
 export class MainPage extends Component {
@@ -17,6 +18,8 @@ export class MainPage extends Component {
         //     var child = this.node.children[i]
         //     console.log("lalala" + i + child.name)
         // }
+
+        // EventsLogData.initData()
     }
 
     update(deltaTime: number) {

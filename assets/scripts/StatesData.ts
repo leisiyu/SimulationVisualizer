@@ -1,4 +1,4 @@
-import { _decorator, AssetManager, resources, TextAsset } from 'cc';
+import { _decorator, resources, TextAsset } from 'cc';
 const { ccclass, property } = _decorator;
 
 // @ccclass("StatesData")

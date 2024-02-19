@@ -1,4 +1,4 @@
-import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button } from 'cc';
+import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button, Label } from 'cc';
 import { StatesData } from './StatesData';
 import { stat } from 'fs';
 const { ccclass, property } = _decorator;
@@ -16,7 +16,11 @@ export class Map extends Component {
     characters = {}
     readIdx = 0
 
+    lblTime: Node
+
     start() {
+        this.lblTime = this.node.getChildByName("lblTime")
+
         resources.load("./CityMap", (err, res:TextAsset) => {
             // console.info(res.text)
             this.mapData = JSON.parse(res.text)
@@ -41,6 +45,7 @@ export class Map extends Component {
             
         })
         // var mapSize = [mapData.length, mapData[0].length]
+
         
     }
 
@@ -57,26 +62,31 @@ export class Map extends Component {
     refreshMap(){
         var stateInfo = StatesData.getDataByIdx()
 
-        if (stateInfo["Action"] == "moved to" ) {
-            var characterName = stateInfo["Name"]
+        // action: move
+        if (stateInfo["A"] == "m" ) {
+            var characterName = stateInfo["N"]
             if (this.characters[characterName] == null) {
                 const node = instantiate(this.character)
-                node.setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
+                node.setPosition(stateInfo["P"][0] * 10, stateInfo["P"][1] * 10)
                 var nodeColor
-                if (characterName[0] == "A") {
+                if (characterName[0] == "a") {
                     nodeColor = Color.RED
-                } else if (characterName[0] == "S") {
+                } else if (characterName[0] == "s") {
                     nodeColor = Color.BLUE
                 } else {
                     nodeColor = Color.GREEN
                 }
                 node.getComponent(Sprite).color = nodeColor
+                var lblName = node.getChildByName("lblName")
+                lblName.getComponent(Label).string = characterName
                 this.node.addChild(node)
                 this.characters[characterName] = node
             } else {
-                this.characters[characterName].setPosition(stateInfo["Position"][0] * 10, stateInfo["Position"][1] * 10)
+                this.characters[characterName].setPosition(stateInfo["P"][0] * 10, stateInfo["P"][1] * 10)
             }
         }
+
+        this.lblTime.getComponent(Label).string = "Time: " + stateInfo["T"]
     }
 
 }

@@ -2221,9 +2221,9 @@
       "__id__": 53
     },
     "vordering": 0,
-    "starInterval": 20,
+    "starInterval": 0,
     "midInterval": 0,
-    "endInterval": 20,
+    "endInterval": 0,
     "handlerCellCount": {
       "__id__": 61
     },

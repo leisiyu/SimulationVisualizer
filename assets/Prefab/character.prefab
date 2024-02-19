@@ -65,14 +65,14 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "lblDied",
+    "_name": "lblName",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 3
@@ -127,7 +127,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 6.493129875380517,
+      "width": 0,
       "height": 10.206
     },
     "_anchorPoint": {
@@ -163,11 +163,11 @@
       "b": 2,
       "a": 255
     },
-    "_string": "D",
+    "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 9.239062500000001,
-    "_fontSize": 9,
+    "_actualFontSize": 8.2125,
+    "_fontSize": 8,
     "_fontFamily": "Arial",
     "_lineHeight": 8.1,
     "_overflow": 0,

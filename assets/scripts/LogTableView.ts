@@ -2,11 +2,14 @@ import { _decorator, Component, Node, Size, Prefab, instantiate } from 'cc';
 import TableView, {TableViewCellNode} from "./UITableView";
 import LogTableItem from './LogTableItem';
 const { ccclass, property } = _decorator;
+import { EventsLogData } from './EventsLogData';
 
 @ccclass('LogTableView')
 export class LogTableView extends Component {
 
-    tableData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    // tableData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    tableData = []
+    isReloaded = false
     @property({type: TableView})
     tableView: TableView = null;
 
@@ -14,10 +17,14 @@ export class LogTableView extends Component {
     private itemPrefab: Prefab = null;
 
     start() {
-        this.tableView.reloadData();
+        EventsLogData.initData()
+        // this.tableData = EventsLogData.getEventsLog()
+        // console.log("hahahahahaha" + this.tableData.length)
+        // this.tableView.reloadData();
     }
 
     tableCellCount(): number {
+        
         return this.tableData.length;
     }
 
@@ -33,12 +40,18 @@ export class LogTableView extends Component {
             item.parent = cell;
             item.name = "item";
         }
-        item.getComponent(LogTableItem).refreshItem(this.tableData[idx]);
+        item.getComponent(LogTableItem).refreshItem(idx, this.tableData[idx]);
     }
 
 
     update(deltaTime: number) {
-        
+        if (this.tableData.length == 0) {
+            this.tableData = EventsLogData.getEventsLog()
+        }
+        if (!this.isReloaded && this.tableData.length != 0) {
+            this.tableView.reloadData()
+            this.isReloaded = true
+        }
     }
 }
 
