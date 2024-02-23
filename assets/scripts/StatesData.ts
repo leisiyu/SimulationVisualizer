@@ -7,6 +7,7 @@ export namespace StatesData {
     var readIdx = 0
     var isPause = false
     var time = 0
+    var isJumpTo = false
 
     function initData(){
         resources.load("./StatesLog", (err, res:TextAsset) => {
@@ -76,6 +77,14 @@ export namespace StatesData {
 
     export function getTime(){
         return time
+    }
+
+    export function setJumpState(isJumpTo){
+        this.isJumpTo = isJumpTo
+    }
+
+    export function getJumpState(){
+        return this.isJumpTo
     }
 }
 

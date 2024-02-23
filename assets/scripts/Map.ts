@@ -1,4 +1,4 @@
-import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button, Label } from 'cc';
+import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button, Label, JsonAsset } from 'cc';
 import { StatesData } from './StatesData';
 import { stat } from 'fs';
 const { ccclass, property } = _decorator;
@@ -61,32 +61,72 @@ export class Map extends Component {
 
     refreshMap(){
         var stateInfo = StatesData.getDataByIdx()
+        var stateIdx = StatesData.getReadIdx()
 
-        // action: move
-        if (stateInfo["A"] == "m" ) {
-            var characterName = stateInfo["N"]
-            if (this.characters[characterName] == null) {
-                const node = instantiate(this.character)
-                node.setPosition(stateInfo["P"][0] * 10, stateInfo["P"][1] * 10)
-                var nodeColor
-                if (characterName[0] == "a") {
-                    nodeColor = Color.RED
-                } else if (characterName[0] == "s") {
-                    nodeColor = Color.BLUE
-                } else {
-                    nodeColor = Color.GREEN
-                }
-                node.getComponent(Sprite).color = nodeColor
-                var lblName = node.getChildByName("lblName")
-                lblName.getComponent(Label).string = characterName
-                this.node.addChild(node)
-                this.characters[characterName] = node
+        if (stateInfo.frameType == "key"){
+            for (let [key, value] of Object.entries(this.characters)){
+                value.setPosition(stateInfo[key][0] * 10, (this.mapData[0].length - stateInfo[key][1]) * 10)
+            }
+            return
+        }
+
+        var characterName = stateInfo["N"]
+        if (StatesData.getJumpState()){
+            var keyFrameIdx = Math.floor(stateIdx / 1000) * 1001 - 1
+            var keyFrame
+            if (keyFrameIdx < 1000){
+                keyFrame = []
             } else {
-                this.characters[characterName].setPosition(stateInfo["P"][0] * 10, stateInfo["P"][1] * 10)
+                keyFrame = StatesData.getDataByIdx(keyFrameIdx)
+            }
+             
+            for (let i = keyFrameIdx + 1; i <= stateIdx; i++){
+                var tempData = StatesData.getDataByIdx(i)
+                keyFrame[tempData["N"]] = {
+                    P: tempData["P"],
+                    S: tempData["S"],
+                }
+            }
+
+            for (let [key, value] of Object.entries(keyFrame)){
+                if (key != "frameType"){
+                    if (this.characters[key] == null){
+                        this.createCharacterNode(value["P"], key)
+                    } else {
+                        this.characters[key].setPosition(value["P"][0] * 10, (this.mapData[0].length - value["P"][1]) * 10)
+                    }
+                }
+            }
+            StatesData.setJumpState(false)
+        } else {
+            
+            if (this.characters[characterName] == null) {
+                this.createCharacterNode(stateInfo["P"], stateInfo["N"])
+            } else {
+                this.characters[characterName].setPosition(stateInfo["P"][0] * 10, (this.mapData[0].length - stateInfo["P"][1]) * 10)
             }
         }
 
         this.lblTime.getComponent(Label).string = "Time: " + stateInfo["T"]
+    }
+
+    createCharacterNode(pos, name){
+        // var characterName = stateInfo["N"]
+        const node = instantiate(this.character)
+        node.setPosition(pos[0] * 10, (this.mapData[0].length - pos[1]) * 10)
+        var nodeColor
+        if (name[0] == "a") {
+            nodeColor = Color.RED
+        } else if (name[0] == "s") {
+            nodeColor = Color.BLUE
+        } else {
+            nodeColor = Color.GREEN
+        }
+        node.getComponent(Sprite).color = nodeColor
+        var lblName = node.getChildByName("lblName")
+        lblName.getComponent(Label).string = name
+        this.node.addChild(node)
+        this.characters[name] = node
     }
 
 }

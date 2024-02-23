@@ -46,7 +46,7 @@ export class MainPage extends Component {
         StatesData.setPauseStatus(true)
         var newIdx = Math.floor(this.slider.getComponent(Slider).progress * StatesData.getStatesLog().length)
         StatesData.setReadIdx(newIdx)
-        
+        StatesData.setJumpState(true)
         
     }
 }
