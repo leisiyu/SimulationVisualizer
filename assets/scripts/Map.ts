@@ -26,7 +26,6 @@ export class Map extends Component {
             this.mapData = JSON.parse(res.text)
             // console.info(this.mapData.length)
             this.mapSize = [this.mapData.length, this.mapData[0].length]
-            console.info(this.mapSize)
 
             for (let i = 0; i < this.mapData.length; i++) {
                 for (let j = 0; j < this.mapData[0].length; j++) {            
@@ -44,9 +43,6 @@ export class Map extends Component {
 
             
         })
-        // var mapSize = [mapData.length, mapData[0].length]
-
-        
     }
 
     update(deltaTime: number) {
@@ -91,8 +87,11 @@ export class Map extends Component {
             for (let [key, value] of Object.entries(keyFrame)){
                 if (key != "frameType"){
                     if (this.characters[key] == null){
-                        this.createCharacterNode(value["P"], key)
+                        this.createCharacterNode(value["P"], key, value["S"])
                     } else {
+                        if (value["S"] == "DIED"){
+                            this.characters[key].getComponent(Sprite).color = Color.GRAY
+                        }
                         this.characters[key].setPosition(value["P"][0] * 10, (this.mapData[0].length - value["P"][1]) * 10)
                     }
                 }
@@ -101,8 +100,11 @@ export class Map extends Component {
         } else {
             
             if (this.characters[characterName] == null) {
-                this.createCharacterNode(stateInfo["P"], stateInfo["N"])
+                this.createCharacterNode(stateInfo["P"], stateInfo["N"], stateInfo["S"])
             } else {
+                if (stateInfo["S"] == "DIED"){
+                    this.characters[characterName].getComponent(Sprite).color = Color.GRAY
+                }
                 this.characters[characterName].setPosition(stateInfo["P"][0] * 10, (this.mapData[0].length - stateInfo["P"][1]) * 10)
             }
         }
@@ -110,7 +112,7 @@ export class Map extends Component {
         this.lblTime.getComponent(Label).string = "Time: " + stateInfo["T"]
     }
 
-    createCharacterNode(pos, name){
+    createCharacterNode(pos, name, state){
         // var characterName = stateInfo["N"]
         const node = instantiate(this.character)
         node.setPosition(pos[0] * 10, (this.mapData[0].length - pos[1]) * 10)
@@ -121,6 +123,9 @@ export class Map extends Component {
             nodeColor = Color.BLUE
         } else {
             nodeColor = Color.GREEN
+        }
+        if (state == "DIED") {
+            nodeColor = Color.GRAY
         }
         node.getComponent(Sprite).color = nodeColor
         var lblName = node.getChildByName("lblName")
