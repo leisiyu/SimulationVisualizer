@@ -3,6 +3,7 @@ import TableView, {TableViewCellNode} from "./UITableView";
 import LogTableItem from './LogTableItem';
 const { ccclass, property } = _decorator;
 import { EventsLogData } from './EventsLogData';
+import { StatesData } from './StatesData';
 
 @ccclass('LogTableView')
 export class LogTableView extends Component {
@@ -52,6 +53,8 @@ export class LogTableView extends Component {
             this.tableView.reloadData()
             this.isReloaded = true
         }
+
+        this.tableView.scrollToIndex(StatesData.getReadIdx())
     }
 }
 
