@@ -35,7 +35,7 @@ export class Map extends Component {
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = (Color.BLACK)
                         } else if (this.mapData[i][j] == 'b'){
-                            node.getComponent(Sprite).color = (Color.YELLOW)
+                            node.getComponent(Sprite).color = (Color.CYAN)
                         }
                         
                     
