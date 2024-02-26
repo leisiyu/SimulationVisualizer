@@ -34,6 +34,8 @@ export class Map extends Component {
                         node.setPosition((i - 1) * 10, (this.mapData[0].length - j) * 10)
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = (Color.BLACK)
+                        } else if (this.mapData[i][j] == 'b'){
+                            node.getComponent(Sprite).color = (Color.YELLOW)
                         }
                         
                     
