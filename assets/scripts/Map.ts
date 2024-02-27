@@ -93,6 +93,16 @@ export class Map extends Component {
                     } else {
                         if (value["S"] == "DIED"){
                             this.characters[key].getComponent(Sprite).color = Color.GRAY
+                        } else {
+                            var nodeColor
+                            if (key[0] == "a") {
+                                nodeColor = Color.RED
+                            } else if (key[0] == "s") {
+                                nodeColor = Color.BLUE
+                            } else {
+                                nodeColor = Color.GREEN
+                            }
+                            this.characters[key].getComponent(Sprite).color = nodeColor
                         }
                         this.characters[key].setPosition(value["P"][0] * 10, (this.mapData[0].length - value["P"][1]) * 10)
                     }
@@ -106,6 +116,16 @@ export class Map extends Component {
             } else {
                 if (stateInfo["S"] == "DIED"){
                     this.characters[characterName].getComponent(Sprite).color = Color.GRAY
+                } else {
+                    var nodeColor
+                    if (characterName[0] == "a") {
+                        nodeColor = Color.RED
+                    } else if (characterName[0] == "s") {
+                        nodeColor = Color.BLUE
+                    } else {
+                        nodeColor = Color.GREEN
+                    }
+                    this.characters[characterName].getComponent(Sprite).color = nodeColor
                 }
                 this.characters[characterName].setPosition(stateInfo["P"][0] * 10, (this.mapData[0].length - stateInfo["P"][1]) * 10)
             }
