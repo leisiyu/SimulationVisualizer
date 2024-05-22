@@ -15,6 +15,7 @@ export class Map extends Component {
     mapSize = []
     characters = {}
     readIdx = 0
+    sizeOffset = 15
 
     lblTime: Node
 
@@ -31,7 +32,7 @@ export class Map extends Component {
                 for (let j = 0; j < this.mapData[0].length; j++) {            
                     
                         const node = instantiate(this.mapGrid)
-                        node.setPosition((i - 1) * 10, (this.mapData[0].length - j) * 10)
+                        node.setPosition((i - 1) * this.sizeOffset, (this.mapData[0].length - j) * this.sizeOffset)
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = (Color.BLACK)
                         } else if (this.mapData[i][j] == 'b'){
@@ -63,7 +64,7 @@ export class Map extends Component {
 
         if (stateInfo.frameType == "key"){
             for (let [key, value] of Object.entries(this.characters)){
-                value.setPosition(stateInfo[key][0] * 10, (this.mapData[0].length - stateInfo[key][1]) * 10)
+                value.setPosition(stateInfo[key][0] * this.sizeOffset, (this.mapData[0].length - stateInfo[key][1]) * this.sizeOffset)
             }
             return
         }
@@ -104,7 +105,7 @@ export class Map extends Component {
                             }
                             this.characters[key].getComponent(Sprite).color = nodeColor
                         }
-                        this.characters[key].setPosition(value["P"][0] * 10, (this.mapData[0].length - value["P"][1]) * 10)
+                        this.characters[key].setPosition(value["P"][0] * this.sizeOffset, (this.mapData[0].length - value["P"][1]) * this.sizeOffset)
                     }
                 }
             }
@@ -127,7 +128,7 @@ export class Map extends Component {
                     }
                     this.characters[characterName].getComponent(Sprite).color = nodeColor
                 }
-                this.characters[characterName].setPosition(stateInfo["P"][0] * 10, (this.mapData[0].length - stateInfo["P"][1]) * 10)
+                this.characters[characterName].setPosition(stateInfo["P"][0] * this.sizeOffset, (this.mapData[0].length - stateInfo["P"][1]) * this.sizeOffset)
             }
         }
 
@@ -137,7 +138,7 @@ export class Map extends Component {
     createCharacterNode(pos, name, state){
         // var characterName = stateInfo["N"]
         const node = instantiate(this.character)
-        node.setPosition(pos[0] * 10, (this.mapData[0].length - pos[1]) * 10)
+        node.setPosition(pos[0] * this.sizeOffset, (this.mapData[0].length - pos[1]) * this.sizeOffset)
         var nodeColor
         if (name[0] == "a") {
             nodeColor = Color.RED
