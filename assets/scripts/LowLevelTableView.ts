@@ -1,16 +1,17 @@
 import { _decorator, Component, Node, Size, Prefab, instantiate } from 'cc';
 import TableView, {TableViewCellNode} from "./UITableView";
-import LogTableItem from './LogTableItem';
+import LowLevelTableItem from './LowLevelTableItem';
 const { ccclass, property } = _decorator;
 import { EventsLogData } from './EventsLogData';
 import { StatesData } from './StatesData';
 
-@ccclass('LogTableView')
-export class LogTableView extends Component {
+@ccclass('LowLevelTableView')
+export class LowLevelTableView extends Component {
 
     // tableData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     tableData = []
-    isReloaded = false
+    // isReloaded = false
+    highLevelEventId = 0
     @property({type: TableView})
     tableView: TableView = null;
 
@@ -41,20 +42,21 @@ export class LogTableView extends Component {
             item.parent = cell;
             item.name = "item";
         }
-        item.getComponent(LogTableItem).refreshItem(idx, this.tableData[idx]);
+        item.getComponent(LowLevelTableItem).refreshItem(idx, this.tableData[idx]);
     }
 
 
     update(deltaTime: number) {
         if (this.tableData.length == 0) {
-            this.tableData = EventsLogData.getHighLevelLog()
-        }
-        if (!this.isReloaded && this.tableData.length != 0) {
+            // this.tableData = EventsLogData.getEventsLog()
+            this.tableData = EventsLogData.getLowLevelData()
             this.tableView.reloadData()
-            this.isReloaded = true
+            return
         }
-
-        // this.tableView.scrollToIndex(StatesData.getReadIdx())
+        if (EventsLogData.checkIfLowLevelLogUpdated()) {
+            this.tableData = EventsLogData.getLowLevelData()
+            this.tableView.reloadData()
+        }
     }
 }
 
