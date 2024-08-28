@@ -1,4 +1,4 @@
-import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button, Label, JsonAsset } from 'cc';
+import { _decorator, AssetManager, resources, TextAsset, Component, Node, Prefab, SpriteFrame, instantiate, Sprite, Color, Button, Label, JsonAsset, director, profiler } from 'cc';
 import { StatesData } from './StatesData';
 import { stat } from 'fs';
 const { ccclass, property } = _decorator;
@@ -15,12 +15,14 @@ export class Map extends Component {
     mapSize = []
     characters = {}
     readIdx = 0
-    sizeOffset = 15
+    sizeOffset = 10
 
     lblTime: Node
 
     start() {
         this.lblTime = this.node.getChildByName("lblTime")
+        // profiler.showStats()
+        profiler.hideStats()
 
         resources.load("./CityMap", (err, res:TextAsset) => {
             // console.info(res.text)

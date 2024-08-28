@@ -38,6 +38,11 @@ export default class LogTableItem extends Component {
         if (this.parsedData["ids"] == null) {return}
 
         EventsLogData.updateLowLevelData(this.parsedData["id"])
+        StatesData.setPauseStatus(true)
+        // var newIdx = Math.floor(this.slider.getComponent(Slider).progress * StatesData.getStatesLog().length)
+        var newIdx = this.parsedData["ids"][0]
+        StatesData.setReadIdx(newIdx)
+        StatesData.setJumpState(true)
     }
 
 }
