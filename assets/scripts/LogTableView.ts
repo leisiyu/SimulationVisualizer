@@ -30,7 +30,7 @@ export class LogTableView extends Component {
     }
 
     tableCellSize(idx: number): Size {
-        return new Size(310, 100);// 通过idx可为每个cell设置单独size
+        return new Size(410, 150);// 通过idx可为每个cell设置单独size
     }
 
     tableCellUpdate(idx: number, cell: TableViewCellNode) {
