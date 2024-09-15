@@ -8,11 +8,13 @@ export class MainPage extends Component {
 
     map: Node
     slider: Node
+    controlBg: Node
 
     start() {
         // var root = find('Canvas')
         this.map = this.node.getChildByName("map")
-        this.slider = this.node.getChildByName("slider")
+        this.controlBg = this.node.getChildByName("controlBackground")
+        this.slider = this.controlBg.getChildByName("slider")
         // console.log("lalala" + this.node.children)
         // for (let i = 0; i < 6; i ++) {
         //     var child = this.node.children[i]
@@ -23,7 +25,7 @@ export class MainPage extends Component {
     }
 
     update(deltaTime: number) {
-        
+        this.slider.getComponent(Slider).progress = StatesData.getReadIdx() / StatesData.getStatesLog().length
     }
 
     onPauseClicked(){
