@@ -36,9 +36,9 @@ export class Map extends Component {
                         const node = instantiate(this.mapGrid)
                         node.setPosition((i - 1) * this.sizeOffset, (this.mapData[0].length - j) * this.sizeOffset)
                         if (this.mapData[i][j] == 'r') {
-                            node.getComponent(Sprite).color = (Color.BLACK)
+                            node.getComponent(Sprite).color = new Color(188, 189, 220, 255)//(Color.BLACK)
                         } else if (this.mapData[i][j] == 'b'){
-                            node.getComponent(Sprite).color = (Color.CYAN)
+                            node.getComponent(Sprite).color = new Color(217, 95, 14)//(Color.CYAN)
                         }
                         
                     
@@ -101,9 +101,9 @@ export class Map extends Component {
                             if (key[0] == "a") {
                                 nodeColor = Color.RED
                             } else if (key[0] == "s") {
-                                nodeColor = Color.BLUE
+                                nodeColor = new Color(44, 127, 184)//Color.BLUE
                             } else {
-                                nodeColor = Color.GREEN
+                                nodeColor = new Color(49, 163, 84, 255) //Color.GREEN
                             }
                             this.characters[key].getComponent(Sprite).color = nodeColor
                         }
@@ -124,9 +124,9 @@ export class Map extends Component {
                     if (characterName[0] == "a") {
                         nodeColor = Color.RED
                     } else if (characterName[0] == "s") {
-                        nodeColor = Color.BLUE
+                        nodeColor = new Color(44, 127, 184) //Color.BLUE
                     } else {
-                        nodeColor = Color.GREEN
+                        nodeColor = new Color(49, 163, 84, 255) //Color.GREEN
                     }
                     this.characters[characterName].getComponent(Sprite).color = nodeColor
                 }
@@ -145,9 +145,9 @@ export class Map extends Component {
         if (name[0] == "a") {
             nodeColor = Color.RED
         } else if (name[0] == "s") {
-            nodeColor = Color.BLUE
+            nodeColor = new Color(44, 127, 184) //Color.BLUE
         } else {
-            nodeColor = Color.GREEN
+            nodeColor = new Color(49, 163, 84, 255) //Color.GREEN
         }
         if (state == "DIED") {
             nodeColor = Color.GRAY

@@ -9,7 +9,7 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "persistent": true
+    "persistent": false
   },
   {
     "__type__": "cc.Node",
@@ -104,9 +104,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 229,
+      "g": 245,
+      "b": 224,
       "a": 255
     },
     "_spriteFrame": {
