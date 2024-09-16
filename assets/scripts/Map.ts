@@ -11,11 +11,30 @@ export class Map extends Component {
     @property(Prefab)
     character: Prefab = null
 
+    @property(Prefab)
+    mapGrid50: Prefab = null
+
+    @property(Prefab)
+    character50: Prefab = null
+
+    @property(Prefab)
+    mapGrid500: Prefab = null
+
+    @property(Prefab)
+    character500: Prefab = null
+
+    @property(Prefab)
+    mapGrid200: Prefab = null
+
+    @property(Prefab)
+    character200: Prefab = null
+
     mapData = []
     mapSize = []
     characters = {}
     readIdx = 0
     sizeOffset = 10
+    characterGrid = null
 
     lblTime: Node
 
@@ -29,11 +48,28 @@ export class Map extends Component {
             this.mapData = JSON.parse(res.text)
             // console.info(this.mapData.length)
             this.mapSize = [this.mapData.length, this.mapData[0].length]
+            var maxSize = this.mapData.length >= this.mapData[0].length ? this.mapData.length : this.mapData[0].length
+
+            var grid = this.mapGrid
+            this.characterGrid = this.character
+            if (maxSize == 50) {
+                grid = this.mapGrid50
+                this.sizeOffset = 20
+                this.characterGrid = this.character50
+            } else if (maxSize == 500) {
+                grid = this.mapGrid500
+                this.sizeOffset = 2
+                this.characterGrid = this.character500
+            } else if (maxSize == 200) {
+                grid = this.mapGrid200
+                this.sizeOffset = 5
+                this.characterGrid = this.character200
+            }
 
             for (let i = 0; i < this.mapData.length; i++) {
                 for (let j = 0; j < this.mapData[0].length; j++) {            
                     
-                        const node = instantiate(this.mapGrid)
+                        const node = instantiate(grid)
                         node.setPosition((i - 1) * this.sizeOffset, (this.mapData[0].length - j) * this.sizeOffset)
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = new Color(188, 189, 220, 255)//(Color.BLACK)
@@ -139,7 +175,7 @@ export class Map extends Component {
 
     createCharacterNode(pos, name, state){
         // var characterName = stateInfo["N"]
-        const node = instantiate(this.character)
+        const node = instantiate(this.characterGrid)
         node.setPosition(pos[0] * this.sizeOffset, (this.mapData[0].length - pos[1]) * this.sizeOffset)
         var nodeColor
         if (name[0] == "a") {

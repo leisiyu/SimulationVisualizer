@@ -18,8 +18,11 @@ export class LowLevelTableView extends Component {
     @property(Prefab)
     private itemPrefab: Prefab = null;
 
+    lblHint: Node
+
     start() {
         EventsLogData.initData()
+        this.lblHint = this.node.getChildByName("lblHint")
         // this.tableData = EventsLogData.getEventsLog()
         // console.log("hahahahahaha" + this.tableData.length)
         // this.tableView.reloadData();
@@ -47,6 +50,7 @@ export class LowLevelTableView extends Component {
 
 
     update(deltaTime: number) {
+        this.lblHint.active = this.tableData.length == 0
         if (this.tableData.length == 0) {
             // this.tableData = EventsLogData.getEventsLog()
             this.tableData = EventsLogData.getLowLevelData()
