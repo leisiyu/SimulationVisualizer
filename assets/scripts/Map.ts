@@ -73,7 +73,7 @@ export class Map extends Component {
                         node.setPosition((i - 1) * this.sizeOffset, (this.mapData[0].length - j) * this.sizeOffset)
                         if (this.mapData[i][j] == 'r') {
                             node.getComponent(Sprite).color = new Color(188, 189, 220, 255)//(Color.BLACK)
-                        } else if (this.mapData[i][j] == 'b'){
+                        } else if (this.mapData[i][j][0] == 'b'){
                             node.getComponent(Sprite).color = new Color(217, 95, 14)//(Color.CYAN)
                         }
                         
